@@ -1,9 +1,6 @@
-use std::cmp;
-
-use crate::{axis::YAxis, utils, ChartColor, Color, Palette, CATPPUCCIN_COLORS};
+use crate::{axis::YAxis, utils, ChartColor, Color, Palette};
 use itertools::Itertools;
-use leptos::{svg::*, *};
-use leptos_use::*;
+use leptos::*;
 use num_traits::ToPrimitive;
 
 pub struct LineChartOptions {
@@ -23,7 +20,7 @@ impl Default for LineChartOptions {
 #[component]
 pub fn LineChart<T, U>(
     values: MaybeSignal<Vec<(T, U)>>,
-    options: Box<LineChartOptions>,
+    options: LineChartOptions,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView
 where

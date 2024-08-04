@@ -1,4 +1,4 @@
-use crate::{axis::YAxis, utils, ChartColor, Color, Palette, CATPPUCCIN_COLORS};
+use crate::{axis::YAxis, utils, ChartColor, Palette};
 use leptos::{svg::*, *};
 use leptos_use::*;
 use num_traits::ToPrimitive;
@@ -44,7 +44,7 @@ impl Default for BarChartOptions {
 pub fn BarChart<T>(
     values: MaybeSignal<Vec<T>>,
     pallete: MaybeSignal<Palette<'static>>,
-    options: Box<BarChartOptions>,
+    options: BarChartOptions,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView
 where

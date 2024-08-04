@@ -7,6 +7,7 @@ Currently supports Bar and Pie charts.
 ## Examples
 
 ### Bar Chart
+
 ![Bar](https://github.com/Panaetius/leptos_charts/blob/main/doc/Bar.png?raw=true)
 
 Simple bar chart that is reactive and responsive, can take plain Vecs or a Leptos signal with a Vec.
@@ -36,6 +37,7 @@ view!{
 ```
 
 ### Pie Chart
+
 ![Pie](https://github.com/Panaetius/leptos_charts/blob/main/doc/Pie.png?raw=true)
 
 Usage:
@@ -57,4 +59,3 @@ view!{
       attr:height="200"
   />
 }
-```

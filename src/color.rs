@@ -16,7 +16,7 @@ pub static CATPPUCCIN_COLORS: Lazy<Vec<Color>> = Lazy::new(|| {
     ]
 });
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum Color<'a> {
     Hex(&'a str),
     RGB(u8, u8, u8),
@@ -49,7 +49,16 @@ impl From<Color<'_>> for (u8, u8, u8) {
 }
 
 /// Takes colors from a vec of colors, wrapping around if the end is reached
+#[derive(Clone, PartialEq)]
 pub struct Palette<'a>(pub Vec<Color<'a>>);
+
+impl<'a> Iterator for Palette<'a> {
+    type Item = Color<'a>;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.0.pop()
+    }
+}
 
 /// Interpolates between 'from' and 'to' colors
 pub struct Gradient<'a> {
@@ -68,6 +77,7 @@ where
 pub trait ChartColor {
     fn color_for_index(&self, i: usize, total: usize) -> Color;
 }
+
 impl ChartColor for Palette<'_> {
     fn color_for_index(&self, i: usize, _total: usize) -> Color {
         self.0[i % self.0.len()].clone()

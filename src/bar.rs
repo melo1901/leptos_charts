@@ -1,19 +1,15 @@
-use crate::{axis::YAxis, utils, ChartColor, Palette, CATPPUCCIN_COLORS};
+use crate::{axis::YAxis, utils, ChartColor, Color, Palette, CATPPUCCIN_COLORS};
 use leptos::{svg::*, *};
 use leptos_use::*;
 use num_traits::ToPrimitive;
 
 pub struct BarChartOptions {
     pub max_ticks: u8,
-    pub color: Box<dyn ChartColor>,
 }
 
 impl Default for BarChartOptions {
     fn default() -> Self {
-        Self {
-            max_ticks: 5u8,
-            color: Box::new(Palette(CATPPUCCIN_COLORS.clone())),
-        }
+        Self { max_ticks: 5u8 }
     }
 }
 
@@ -47,6 +43,7 @@ impl Default for BarChartOptions {
 #[component]
 pub fn BarChart<T>(
     values: MaybeSignal<Vec<T>>,
+    pallete: MaybeSignal<Palette<'static>>,
     options: Box<BarChartOptions>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView
@@ -65,6 +62,7 @@ where
             .enumerate()
             .collect::<Vec<(usize, f64)>>()
     });
+    let pallete_memo = create_memo(move |_| pallete().clone());
     let max_ticks = options.max_ticks;
     let tick_config =
         create_memo(move |_| utils::nice_ticks(min_max.get().0, min_max.get().1, max_ticks));
@@ -81,7 +79,7 @@ where
                     .map(|(i, v)| {
                         let el = create_node_ref::<Rect>();
                         let is_hovered = use_element_hover(el);
-                        let color = String::from(options.color.color_for_index(i, num_bars.get()));
+                        let color = String::from(pallete_memo().color_for_index(i, num_bars.get()));
                         view! {
                             <svg
                                 x="10%"
